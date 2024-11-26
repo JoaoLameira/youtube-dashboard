@@ -90,26 +90,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     }
   }, [trimStart, trimEnd, playerRefAtomValue, isPlayerReadyAtomValue, videoId]);
 
-  const getDuration = () => {
-    if (
-      playerRefAtomValue &&
-      typeof playerRefAtomValue.getDuration === "function"
-    ) {
-      return playerRefAtomValue.getDuration();
-    }
-    console.warn("Player is not ready or does not have the method getDuration");
-    return null;
-  };
-
-  useEffect(() => {
-    if (isPlayerReadyAtomValue) {
-      const duration = getDuration();
-      if (duration) {
-        console.log(`Video duration: ${duration} seconds`);
-      }
-    }
-  }, [isPlayerReadyAtomValue]);
-
   return (
     <div className="relative w-full max-w-[800px] aspect-video">
       <div
