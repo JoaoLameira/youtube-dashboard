@@ -63,7 +63,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   };
 
   useEffect(() => {
-    // Initialize the player on first load
     window.onYouTubeIframeAPIReady = initializePlayer;
 
     if (typeof YT !== "undefined" && YT.Player) {
@@ -102,7 +101,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     return null;
   };
 
-  // Example: Use getDuration in some effect or callback if needed
   useEffect(() => {
     if (isPlayerReadyAtomValue) {
       const duration = getDuration();
