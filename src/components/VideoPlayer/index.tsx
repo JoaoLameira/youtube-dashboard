@@ -13,8 +13,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const iframeContainerRef = useRef<HTMLDivElement>(null);
   const [playerRefAtomValue, setPlayerRefAtom] = useAtom(playerRefAtom);
   const setIsPlayingAtom = useSetAtom(isPlayingAtom);
-  const [isPlayerReadyAtomValue, setIsPlayerReadyAtom] =
-    useAtom(isPlayerReadyAtom);
+  const setIsPlayerReadyAtom = useSetAtom(isPlayerReadyAtom);
 
   const handlePlayerStateChange = (event: YT.OnStateChangeEvent) => {
     if (event.data === YT.PlayerState.PLAYING) {
@@ -54,12 +53,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     });
   };
 
-  const destroyPlayer = () => {
-    setPlayerRefAtom(null);
-    setIsPlayerReadyAtom(false);
-    setIsPlayingAtom(false);
-  };
-
   useEffect(() => {
     window.onYouTubeIframeAPIReady = initializePlayer;
 
@@ -68,25 +61,21 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     }
 
     return () => {
-      destroyPlayer();
+      setPlayerRefAtom(null);
+      setIsPlayerReadyAtom(false);
+      setIsPlayingAtom(false);
     };
   }, []);
 
   useEffect(() => {
-    if (
-      trimStart &&
-      trimEnd &&
-      playerRefAtomValue &&
-      isPlayerReadyAtomValue &&
-      typeof playerRefAtomValue.cueVideoById === "function"
-    ) {
+    if (trimStart && trimEnd && playerRefAtomValue) {
       playerRefAtomValue.cueVideoById({
         videoId,
         startSeconds: trimStart,
         endSeconds: trimEnd,
       });
     }
-  }, [trimStart, trimEnd, playerRefAtomValue, isPlayerReadyAtomValue, videoId]);
+  }, [trimStart, trimEnd, playerRefAtomValue, videoId]);
 
   return (
     <div className="relative w-full max-w-[800px] aspect-video">

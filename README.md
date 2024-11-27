@@ -1,15 +1,18 @@
+# Youtube Dashboard
+
+![alt text](./public/image.png)
+
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+#dev
+npm run install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+#prod
+npm run build
+npm run start
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

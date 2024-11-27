@@ -24,7 +24,7 @@ const VideoPage = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-6">Watch and Trim Video</h1>
+      <h1 className="text-3xl font-bold mb-12">Watch and Trim Video</h1>
       <VideoPlayer videoId={videoId} trimStart={trimStart} trimEnd={trimEnd} />
       <VideoControls
         trimStart={trimStart}
