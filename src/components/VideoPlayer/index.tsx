@@ -55,11 +55,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   };
 
   const destroyPlayer = () => {
-    if (playerRefAtomValue?.destroy) {
-      playerRefAtomValue.destroy();
-    }
     setPlayerRefAtom(null);
     setIsPlayerReadyAtom(false);
+    setIsPlayingAtom(false);
   };
 
   useEffect(() => {
