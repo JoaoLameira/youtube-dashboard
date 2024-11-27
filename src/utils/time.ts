@@ -1,11 +1,19 @@
-export const secondsToMinutes = (seconds: number | undefined) => {
-  if (!seconds) return { minutes: 0, remainingSeconds: `00` };
-
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  if (remainingSeconds < 10) {
-    return { minutes, remainingSeconds: `0${remainingSeconds}` };
+export const secondsToHMS = (time: number | undefined) => {
+  if (time === undefined) {
+    return "00:00";
   }
 
-  return { minutes, remainingSeconds };
+  const dateObj = new Date(time * 1000);
+  const hours = dateObj.getUTCHours();
+  const minutes = dateObj.getUTCMinutes();
+  const seconds = dateObj.getSeconds();
+
+  const timeString =
+    hours.toString().padStart(2, "0") +
+    ":" +
+    minutes.toString().padStart(2, "0") +
+    ":" +
+    seconds.toString().padStart(2, "0");
+
+  return timeString;
 };

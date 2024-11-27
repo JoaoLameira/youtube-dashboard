@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { DualRangeSlider } from "~/components/DualRangeSlider";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { trimEndAtom, trimStartAtom } from "~/store";
-import { secondsToMinutes } from "~/utils";
+import { secondsToHMS } from "~/utils";
 
 const DualRangeSliderCustomLabel = ({
   maxDuration,
@@ -37,8 +37,8 @@ const DualRangeSliderCustomLabel = ({
     <div className="w-full space-y-5 my-10">
       <DualRangeSlider
         label={(value) => {
-          const { minutes, remainingSeconds } = secondsToMinutes(value);
-          return <span>{`${minutes}:${remainingSeconds}`}</span>;
+          const time = secondsToHMS(value);
+          return <span>{time}</span>;
         }}
         value={[trimStart || 0, trimEnd || maxDuration]}
         onValueChange={handleChanges}
