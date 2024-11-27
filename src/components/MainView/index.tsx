@@ -6,7 +6,7 @@ export const MainView = ({ children, className }: MainViewProps) => {
   return (
     <div
       className={cn(
-        "h-full bg-neutral-800 p-5 sm:p-10 lg:p-20 overflow-x-hidden overflow-y-auto",
+        "h-full bg-neutral-800 px-5 sm:px-10 lg:px-20 py-20 overflow-x-hidden overflow-y-auto ml-16 md:ml-0",
         className
       )}
     >

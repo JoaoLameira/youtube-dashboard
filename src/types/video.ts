@@ -57,3 +57,9 @@ export interface VideoQueryParams {
   limit: number;
   search: string;
 }
+
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady: () => void;
+  }
+}

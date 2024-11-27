@@ -1,20 +1,19 @@
 "use client";
-
 import React from "react";
 import { cn } from "~/utils";
-import { useSidebarContext } from "~/components/SideBar/Context";
+import { useAtomValue } from "jotai";
+import { isOpen } from "~/store";
 
 const SidebarContainer: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { isOpen } = useSidebarContext();
-
+  const isMenuOpen = useAtomValue(isOpen);
   return (
     <div className="pr-1">
       <div
         className={cn(
-          "flex flex-col h-screen transition-all duration-300",
-          isOpen ? "w-80" : "w-16"
+          "flex flex-col h-screen absolute bg-background md:relative z-10 transition-all duration-300 overflow-hidden",
+          !isMenuOpen ? "w-80" : "w-16"
         )}
       >
         {children}

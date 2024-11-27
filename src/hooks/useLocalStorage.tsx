@@ -1,39 +1,40 @@
-import { useState } from "react";
-
-function useLocalStorage<T>(
-  videoId: string,
-  key: string
-): [T, (value: T) => void] {
-  const [storedValue, setStoredValue] = useState<T>(() => {
+export const useLocalStorage = () => {
+  const setItem = <T,>(key: string, value: T): void => {
     if (typeof window === "undefined") return;
 
     try {
-      const item = window.localStorage.getItem(`${key}_${videoId}`);
-      return item ? JSON.parse(item) : undefined;
+      window.localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
-      console.error(
-        `Error reading ${key} for video ${videoId} from localStorage`,
-        error
-      );
-      return;
-    }
-  });
-
-  const setValue = (value: T) => {
-    setStoredValue(value);
-    if (typeof window !== "undefined") {
-      try {
-        window.localStorage.setItem(`${key}_${videoId}`, JSON.stringify(value));
-      } catch (error) {
-        console.error(
-          `Error setting ${key} for video ${videoId} to localStorage`,
-          error
-        );
-      }
+      window.console.error(error);
     }
   };
 
-  return [storedValue, setValue];
-}
+  const getItem = <T,>(key: string): T | undefined => {
+    if (typeof window === "undefined") return;
 
-export default useLocalStorage;
+    try {
+      const item = window.localStorage.getItem(key);
+      if (!item) return undefined;
+
+      return JSON.parse(item) as T;
+    } catch (error) {
+      window.console.error(error);
+      return undefined;
+    }
+  };
+
+  const removeItem = (key: string): void => {
+    if (typeof window === "undefined") return;
+
+    try {
+      window.localStorage.removeItem(key);
+    } catch (error) {
+      window.console.error(error);
+    }
+  };
+  return {
+    getItem,
+    setItem,
+    removeItem,
+  };
+};

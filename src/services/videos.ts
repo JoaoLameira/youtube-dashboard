@@ -1,8 +1,5 @@
-"use server";
-
 import { PaginatedResponse, VideoItem } from "~/types";
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api/videos";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
 
 interface GetVideosProps {
   page: string;
@@ -23,7 +20,7 @@ export const fetchVideos = async ({
       search: encodeURIComponent(search),
     }).toString();
 
-    const url = `${API_URL}?${query}`;
+    const url = `${API_URL}/videos?${query}`;
 
     const res = await fetch(url, {
       cache: "force-cache",
@@ -37,7 +34,40 @@ export const fetchVideos = async ({
     }
 
     const data: PaginatedResponse<VideoItem> = await res.json();
-    //await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network latency
+    return data;
+  } catch (error) {
+    console.error("Error fetching videos:", error);
+    throw error;
+  }
+};
+
+interface GetVideoByIdProps {
+  id: string;
+}
+
+// Should be cached for 1 hour
+export const fetchVideoById = async ({
+  id,
+}: GetVideoByIdProps): Promise<VideoItem> => {
+  try {
+    const query = new URLSearchParams({
+      id,
+    }).toString();
+
+    const url = `${API_URL}/video?${query}`;
+
+    const res = await fetch(url, {
+      cache: "force-cache",
+      next: {
+        revalidate: 3600,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch videos: ${res.statusText}`);
+    }
+
+    const data: VideoItem = await res.json();
 
     return data;
   } catch (error) {

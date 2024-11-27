@@ -1,17 +1,19 @@
 "use client";
+import { useAtomValue } from "jotai";
 import React from "react";
+import { isOpen } from "~/store";
 import { cn } from "~/utils";
-import { useSidebarContext } from "./Context";
 
 const SidebarFooter: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { isOpen } = useSidebarContext();
+  const isMenuOpen = useAtomValue(isOpen);
+
   return (
     <div
       className={cn(
-        "p-4 bg-background text-center text-white",
-        isOpen ? "delay-300 opacity-100" : "opacity-0"
+        "px-4 pb-8 pt-4 bg-background text-center min-w-80",
+        isMenuOpen && "hidden"
       )}
     >
       {children}

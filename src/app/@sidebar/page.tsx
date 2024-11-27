@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { fetchVideos } from "~/actions/videos";
+import { fetchVideos } from "~/services/videos";
 import Pagination from "~/components/Pagination";
 import { Search } from "~/components/Search";
 import Sidebar from "~/components/SideBar";

@@ -1,19 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import React, { useEffect, useRef } from "react";
-import { isPlayerReadyAtom, isPlayingAtom, playerRefAtom } from "~/store";
-import { VideoPlayerProps } from "~/components/VideoPlayer/types";
+import { useParams } from "next/navigation";
+import {
+  isPlayerReadyAtom,
+  isPlayingAtom,
+  playerRefAtom,
+  trimEndAtom,
+  trimStartAtom,
+} from "~/store";
+import SkeletonVideoPlayer from "~/components/VideoPlayer/Skeleton";
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({
-  videoId,
-  trimStart,
-  trimEnd,
-}) => {
+const VideoPlayer = () => {
+  const params = useParams();
+  const videoId = params.videoId as string;
   const iframeContainerRef = useRef<HTMLDivElement>(null);
   const [playerRefAtomValue, setPlayerRefAtom] = useAtom(playerRefAtom);
+  const trimStart = useAtomValue(trimStartAtom);
+  const trimEnd = useAtomValue(trimEndAtom);
   const setIsPlayingAtom = useSetAtom(isPlayingAtom);
-  const setIsPlayerReadyAtom = useSetAtom(isPlayerReadyAtom);
+  const [isPlayerReadyAtomValue, setIsPlayerReadyAtom] =
+    useAtom(isPlayerReadyAtom);
 
   const handlePlayerStateChange = (event: YT.OnStateChangeEvent) => {
     if (event.data === YT.PlayerState.PLAYING) {
@@ -78,11 +86,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   }, [trimStart, trimEnd, playerRefAtomValue, videoId]);
 
   return (
-    <div className="relative w-full max-w-[800px] aspect-video">
+    <div className="relative w-full max-w-[1000px] aspect-video">
       <div
         ref={iframeContainerRef}
         className="absolute top-0 left-0 w-full h-full"
       ></div>
+      {!isPlayerReadyAtomValue && <SkeletonVideoPlayer />}
     </div>
   );
 };

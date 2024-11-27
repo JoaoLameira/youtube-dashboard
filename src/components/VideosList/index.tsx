@@ -1,7 +1,7 @@
 import React from "react";
 import List from "~/components/List";
 import Item from "~/components/List/ListItem";
-import { fetchVideos } from "~/actions/videos";
+import { fetchVideos } from "~/services/videos";
 import { VideosListProps } from "~/components/VideosList/types";
 
 export const VideosList = async ({ query, page }: VideosListProps) => {
